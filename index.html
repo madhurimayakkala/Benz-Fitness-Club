@@ -144,28 +144,81 @@ nav.solid {
 }
 .hamburger span {
   display: block;
-  width: 22px; height: 1.5px;
+  width: 22px;
+  height: 1.5px;
   background: var(--cream);
   transition: opacity .2s;
 }
-.mobile-menu {
-  display: none;
-  flex-direction: column;
-  background: rgba(1,15,30,0.98);
-  padding: 16px 24px 28px;
-  border-bottom: 1px solid var(--border);
+
+/* Overlay */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(1,15,30,0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 180;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease;
 }
+
+.mobile-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 72px;
+  left: 16px;
+  right: 16px;
+
+  background: rgba(1,15,30,0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  border: 1px solid rgba(250,241,202,0.08);
+  border-radius: 20px;
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  z-index: 200;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+
+  transition: all .3s ease;
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 .mobile-menu a {
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 16px;
   color: var(--cream);
   text-decoration: none;
-  padding: 15px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 18px 8px;
+  border-bottom: 1px solid rgba(250,241,202,0.06);
 }
-.mobile-menu a:last-child { border-bottom: none; color: var(--gold); }
-.mobile-menu.open { display: flex; }
 
+.mobile-menu a:last-child {
+  border-bottom: none;
+  color: var(--gold);
+}
+body.menu-open {
+  overflow: hidden;
+}
 /* ─── HERO ────────────────────────────────────────────── */
 .hero {
   position: relative;
@@ -1082,6 +1135,7 @@ footer {
     <span></span><span></span><span></span>
   </button>
 </nav>
+<div class="mobile-overlay" id="mobileOverlay"></div>
 <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile">
   <a href="#disciplines" onclick="closeMobile()">Training</a>
   <a href="#ages" onclick="closeMobile()">Age Groups</a>
@@ -1495,9 +1549,7 @@ footer {
         </a>
         <p class="ft-tag">A multi-disciplinary fitness academy in Madinaguda — building strength, skill, discipline, and confidence for all ages.</p>
         <div class="ft-social" aria-label="Social links">
-          <a href="#" class="ft-soc" aria-label="Instagram">IG</a>
           <a href="https://wa.me/918500313356" class="ft-soc" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">WA</a>
-          <a href="#" class="ft-soc" aria-label="YouTube">YT</a>
         </div>
       </div>
       <div class="ft-col">
@@ -1571,11 +1623,25 @@ window.addEventListener('scroll', () => {
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 hamburger.addEventListener('click', () => {
-  const open = mobileMenu.classList.toggle('open');
-  hamburger.setAttribute('aria-expanded', String(open));
+  mobileMenu.classList.toggle('open');
+  mobileOverlay.classList.toggle('open');
+
+  document.body.classList.toggle('menu-open');
+
+  hamburger.setAttribute(
+    'aria-expanded',
+    mobileMenu.classList.contains('open')
+  );
 });
+const mobileOverlay = document.getElementById('mobileOverlay');
+mobileOverlay.addEventListener('click', closeMobile);
+
 function closeMobile() {
   mobileMenu.classList.remove('open');
+  mobileOverlay.classList.remove('open');
+
+  document.body.classList.remove('menu-open');
+
   hamburger.setAttribute('aria-expanded', 'false');
 }
 

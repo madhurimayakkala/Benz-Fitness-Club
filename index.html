@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benz Fitness Club — Madinaguda, Hyderabad</title>
+<meta name="description" content="Benz Fitness Club is a multi-disciplinary fitness academy in Madinaguda offering Calisthenics, Gymnastics, Boxing, Martial Arts, and Strength Training for all ages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─── RESET ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #010F1E;
+  color: #FAF1CA;
+  overflow-x: hidden;
+  line-height: 1.6;
+  cursor: none;
+}
+@media (pointer: coarse) { body { cursor: auto; } }
+
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --deep: #010F1E;
+  --mid: #00182E;
+  --cream: #FAF1CA;
+  --gold: #E7C86B;
+  --text-sub: rgba(250,241,202,0.68);
+  --text-muted: rgba(250,241,202,0.42);
+  --border: rgba(250,241,202,0.07);
+  --border-hover: rgba(231,200,107,0.2);
+  --section-pad: 160px;
+}
+
+/* ─── CURSOR ─────────────────────────────────────────── */
+#cur {
+  position: fixed;
+  top: 0; left: 0;
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  will-change: transform;
+}
+#cur-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(231,200,107,0.38);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: width .35s cubic-bezier(.19,1,.22,1),
+              height .35s cubic-bezier(.19,1,.22,1),
+              border-color .3s,
+              opacity .3s;
+  will-change: transform;
+}
+body.cur-hover #cur-ring { width: 44px; height: 44px; border-color: rgba(231,200,107,0.6); }
+body.cur-click #cur { transform: translate(-50%,-50%) scale(.75); }
+@media (pointer: coarse) { #cur, #cur-ring { display: none; } }
+
+/* ─── FOCUS VISIBLE ───────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ─── NAV ─────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 0 48px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background .45s ease, border-color .45s ease;
+}
+nav.solid {
+  background: rgba(1,15,30,0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 21px;
+  letter-spacing: .09em;
+  color: var(--cream);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  cursor: none;
+}
+.nav-dot {
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 38px;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: none;
+  transition: color .22s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-cta {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: .07em !important;
+  color: var(--deep) !important;
+  background: var(--gold);
+  padding: 10px 22px;
+  transition: opacity .2s !important;
+}
+.nav-cta:hover { opacity: .82; color: var(--deep) !important; }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: none;
+  background: none;
+  border: none;
+  padding: 6px;
+}
+.hamburger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--cream);
+  transition: opacity .2s;
+}
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: rgba(1,15,30,0.98);
+  padding: 16px 24px 28px;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-menu a {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--cream);
+  text-decoration: none;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-menu a:last-child { border-bottom: none; color: var(--gold); }
+.mobile-menu.open { display: flex; }
+
+/* ─── HERO ────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 100px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(155deg, #010F1E 0%, #021E36 55%, #010F1E 100%);
+}
+.hero-rings {
+  position: absolute; inset: 0;
+  pointer-events: none; overflow: hidden;
+}
+.g-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(231,200,107,0.055);
+  will-change: transform;
+}
+.g-r1 { width: 740px; height: 740px; top: -220px; right: -170px; border-color: rgba(231,200,107,0.04); }
+.g-r2 { width: 480px; height: 480px; top: -60px;  right: 140px; }
+.g-r3 { width: 270px; height: 270px; top: 110px;  right: 250px; border-color: rgba(231,200,107,0.09); }
+.g-r4 { width: 940px; height: 940px; bottom: -420px; left: -320px; border-color: rgba(231,200,107,0.025); }
+.g-r5 { width: 116px; height: 116px; top: 42%; left: 59%;
+         border-color: rgba(231,200,107,0.1);
+         animation: drift 14s ease-in-out infinite; }
+@keyframes drift {
+  0%,100% { transform: translate(0,0); }
+  50%      { transform: translate(7px,-10px); }
+}
+
+/* Vertical signature stripe */
+.hero-stripe {
+  position: absolute;
+  left: 48px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(231,200,107,0.22) 18%,
+    rgba(231,200,107,0.22) 82%,
+    transparent 100%);
+  z-index: 5;
+}
+.stripe-dot {
+  position: absolute;
+  left: 50%; width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  animation: pdot 3.5s ease-in-out infinite;
+}
+.stripe-dot:nth-child(2) { top: 25%; animation-delay: 1.1s; }
+.stripe-dot:nth-child(3) { top: 52%; animation-delay: 2.2s; }
+.stripe-dot:nth-child(4) { top: 78%; animation-delay: 0.5s; }
+@keyframes pdot {
+  0%,100% { opacity: .3; transform: translate(-50%,-50%) scale(1); }
+  50%     { opacity: 1;  transform: translate(-50%,-50%) scale(1.9); }
+}
+
+.hero-content {
+  position: relative; z-index: 10;
+  padding: 0 64px 0 88px;
+  max-width: 1240px;
+}
+.hero-eyebrow {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0; transform: translateY(18px);
+  animation: fup .75s .28s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px; height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.hero-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 11.5vw, 168px);
+  line-height: .91;
+  letter-spacing: .01em;
+  color: var(--cream);
+  margin-bottom: 52px;
+  overflow: hidden;
+}
+.h-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(108%);
+}
+.h-line:nth-child(1) { animation: lin .95s .48s cubic-bezier(.16,1,.3,1) forwards; }
+.h-line:nth-child(2) { animation: lin .95s .62s cubic-bezier(.16,1,.3,1) forwards; }
+.h-line:nth-child(3) { animation: lin .95s .77s cubic-bezier(.16,1,.3,1) forwards; color: var(--gold); }
+@keyframes lin { to { opacity:1; transform:translateY(0); } }
+@keyframes fup { to { opacity:1; transform:translateY(0); } }
+
+.hero-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fup .8s 1.05s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-desc {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-sub);
+  max-width: 400px;
+  line-height: 1.78;
+}
+.hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+/* Buttons */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--gold);
+  color: var(--deep);
+  font-size: 13px; font-weight: 500;
+  letter-spacing: .06em;
+  padding: 15px 30px;
+  text-decoration: none;
+  cursor: none;
+  transition: opacity .22s, transform .32s cubic-bezier(.34,1.56,.64,1);
+}
+.btn-gold:hover { opacity: .88; transform: translateY(-2px); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: transparent;
+  color: var(--cream);
+  font-size: 13px; font-weight: 400;
+  letter-spacing: .06em;
+  padding: 14px 30px;
+  border: 1px solid rgba(250,241,202,0.18);
+  text-decoration: none;
+  cursor: none;
+  transition: border-color .22s, background .22s;
+}
+.btn-outline:hover { border-color: rgba(250,241,202,0.44); background: rgba(250,241,202,0.03); }
+
+/* Scroll hint */
+.hero-scroll {
+  position: absolute;
+  bottom: 36px; right: 52px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  z-index: 10;
+  opacity: 0;
+  animation: fup .7s 1.35s forwards;
+}
+.scroll-line {
+  width: 1px; height: 52px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  animation: sline 2.8s ease-in-out infinite;
+}
+@keyframes sline {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  48%  { transform: scaleY(1); transform-origin: top; }
+  52%  { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.scroll-label {
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  writing-mode: vertical-lr;
+}
+
+/* ─── MARQUEE ─────────────────────────────────────────── */
+.marquee-bar {
+  background: var(--gold);
+  padding: 13px 0;
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: mq 30s linear infinite;
+  width: max-content;
+}
+.mq-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding-right: 22px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14.5px;
+  letter-spacing: .14em;
+  color: var(--deep);
+}
+.mq-dot {
+  width: 3px; height: 3px;
+  background: rgba(1,15,30,0.32);
+  border-radius: 50%;
+}
+@keyframes mq { to { transform: translateX(-50%); } }
+
+/* ─── SHARED SECTION ELEMENTS ─────────────────────────── */
+.s-label {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+  display: flex; align-items: center; gap: 14px;
+}
+.s-label::before {
+  content: '';
+  width: 22px; height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.s-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 5.5vw, 80px);
+  line-height: .93;
+  letter-spacing: .015em;
+  color: var(--cream);
+}
+.s-divider {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── PHILOSOPHY ──────────────────────────────────────── */
+.philosophy {
+  position: relative;
+  background: var(--deep);
+  padding: var(--section-pad) 0;
+  overflow: hidden;
+}
+.phil-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 96px;
+  align-items: center;
+}
+.phil-body {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.82;
+  color: var(--text-sub);
+  max-width: 400px;
+  margin: 28px 0 52px;
+}
+.phil-values { display: flex; flex-direction: column; }
+.phil-value {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transform: translateX(-18px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.phil-value.vis { opacity: 1; transform: translateX(0); }
+.phil-value:last-child { border-bottom: none; }
+.pv-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px; letter-spacing: .14em;
+  color: var(--gold); padding-top: 4px;
+  flex-shrink: 0; width: 22px;
+}
+.pv-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px; letter-spacing: .05em;
+  color: var(--cream); margin-bottom: 5px;
+}
+.pv-desc {
+  font-size: 13px; font-weight: 300;
+  color: var(--text-muted); line-height: 1.62;
+}
+
+/* Right visual */
+.phil-right { position: relative; }
+.phil-big-word {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(110px, 15vw, 220px);
+  line-height: 1;
+  letter-spacing: .01em;
+  color: rgba(231,200,107,0.055);
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity .45s;
+}
+.phil-rings-vis {
+  display: flex; flex-direction: column; gap: 28px;
+  padding: 48px 40px;
+}
+.pr-row {
+  display: flex; align-items: center; gap: 22px;
+}
+.pr-ring {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(231,200,107,0.18);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: border-color .4s, transform .4s;
+}
+.pr-ring.act { border-color: var(--gold); transform: scale(1.07); }
+.pr-inner {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(231,200,107,0.1);
+  display: flex; align-items: center; justify-content: center;
+}
+.pr-core {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(231,200,107,0.1);
+  transition: background .4s;
+}
+.pr-ring.act .pr-core { background: rgba(231,200,107,0.3); }
+.pr-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 19px; letter-spacing: .07em;
+  color: var(--cream);
+  opacity: .35;
+  transition: opacity .4s, color .4s;
+}
+.pr-row.act-row .pr-label { opacity: 1; color: var(--gold); }
+
+/* ─── DISCIPLINES ─────────────────────────────────────── */
+.disciplines {
+  background: var(--mid);
+  padding: var(--section-pad) 0;
+  position: relative; overflow: hidden;
+}
+.disc-head {
+  max-width: 1200px;
+  margin: 0 auto 88px;
+  padding: 0 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px; flex-wrap: wrap;
+}
+.disc-head h2 { margin-top: 18px; }
+.disc-head-note {
+  font-size: 14px; font-weight: 300;
+  color: var(--text-muted);
+  max-width: 260px; line-height: 1.72;
+  padding-bottom: 6px;
+}
+.disc-scroll {
+  overflow: hidden; position: relative;
+}
+.disc-track {
+  display: flex;
+  gap: 2px;
+  padding: 0 80px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+  cursor: grab;
+}
+.disc-track:active { cursor: grabbing; }
+.disc-track::-webkit-scrollbar { display: none; }
+.disc-card {
+  flex: 0 0 320px;
+  height: 500px;
+  background: rgba(250,241,202,0.028);
+  border: 1px solid var(--border);
+  padding: 40px 34px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  scroll-snap-align: start;
+  cursor: none;
+  position: relative; overflow: hidden;
+  transition: background .32s, border-color .32s;
+}
+.disc-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .42s cubic-bezier(.16,1,.3,1);
+}
+.disc-card:hover { background: rgba(250,241,202,0.052); border-color: var(--border-hover); }
+.disc-card:hover::after { transform: scaleX(1); }
+.disc-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10.5px; letter-spacing: .2em;
+  color: var(--gold); opacity: .55;
+}
+.disc-mid { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 28px 0; }
+.disc-tick {
+  width: 44px; height: 1px;
+  background: rgba(231,200,107,0.28);
+  margin-bottom: 30px;
+  transition: width .4s cubic-bezier(.16,1,.3,1), background .3s;
+}
+.disc-card:hover .disc-tick { width: 76px; background: var(--gold); }
+.disc-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px; line-height: .93;
+  letter-spacing: .02em;
+  color: var(--cream);
+  margin-bottom: 18px;
+}
+.disc-desc {
+  font-size: 13.5px; font-weight: 300;
+  line-height: 1.72; color: var(--text-muted);
+}
+.disc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.disc-tag {
+  font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(231,200,107,0.65);
+  border: 1px solid rgba(231,200,107,0.14);
+  padding: 4px 9px;
+}
+.disc-prog-wrap {
+  max-width: 1200px; margin: 28px auto 0;
+  padding: 0 80px;
+  display: flex; align-items: center; gap: 14px;
+}
+.disc-prog-track {
+  width: 100px; height: 1px;
+  background: rgba(250,241,202,0.08);
+  position: relative;
+}
+.disc-prog-fill {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  background: var(--gold); width: 18%;
+  transition: width .22s;
+}
+.disc-prog-label {
+  font-size: 9.5px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+
+/* ─── ACADEMY MOSAIC ──────────────────────────────────── */
+.academy {
+  background: var(--deep);
+  padding: var(--section-pad) 0;
+  position: relative;
+}
+.acad-head {
+  max-width: 1200px; margin: 0 auto 72px;
+  padding: 0 80px;
+}
+.acad-mosaic {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 290px 290px;
+  gap: 3px;
+}
+.mc {
+  background: rgba(250,241,202,0.035);
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 30px;
+  overflow: hidden; position: relative;
+  transition: background .3s;
+}
+.mc:hover { background: rgba(250,241,202,0.065); }
+.mc.tall { grid-row: span 2; }
+.mc.acc  { border-color: var(--border-hover); }
+.mc-bg {
+  position: absolute; top: 14px; right: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 88px; line-height: 1;
+  color: rgba(250,241,202,0.035);
+  pointer-events: none; user-select: none;
+}
+.mc-geo {
+  position: absolute; top: 24px; left: 24px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(231,200,107,0.09);
+}
+.mc-geo::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(231,200,107,0.12);
+  transform: translate(-50%,-50%);
+}
+.mc-dis {
+  font-size: 9.5px; letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold); margin-bottom: 5px; opacity: .65;
+}
+.mc-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 27px; letter-spacing: .04em;
+  color: var(--cream); line-height: 1.05;
+}
+.mc-sub {
+  font-size: 12px; font-weight: 300;
+  color: var(--text-muted); margin-top: 5px;
+}
+
+/* ─── AGES ────────────────────────────────────────────── */
+.ages {
+  background: var(--mid);
+  padding: var(--section-pad) 0;
+  position: relative;
+}
+.ages-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 80px;
+}
+.ages-hd {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: end;
+  margin-bottom: 88px;
+}
+.ages-note {
+  font-size: 15px; font-weight: 300;
+  color: var(--text-sub); line-height: 1.78;
+  padding-bottom: 4px;
+}
+.ages-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+.age-card {
+  background: rgba(250,241,202,0.022);
+  border: 1px solid var(--border);
+  padding: 52px 34px 44px;
+  position: relative; overflow: hidden;
+  transition: background .32s, border-color .32s;
+}
+.age-card:hover {
+  background: rgba(250,241,202,0.048);
+  border-color: var(--border-hover);
+}
+.age-bar {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .44s cubic-bezier(.16,1,.3,1);
+}
+.age-card:hover .age-bar { transform: scaleX(1); }
+.age-range {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px; line-height: 1;
+  color: rgba(231,200,107,0.15);
+  margin-bottom: 36px; display: block;
+  transition: color .32s;
+  letter-spacing: .01em;
+}
+.age-card:hover .age-range { color: rgba(231,200,107,0.28); }
+.age-group {
+  font-size: 9.5px; letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold); opacity: .65; margin-bottom: 10px;
+}
+.age-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px; letter-spacing: .04em;
+  color: var(--cream); margin-bottom: 14px;
+}
+.age-desc {
+  font-size: 13px; font-weight: 300;
+  line-height: 1.7; color: var(--text-muted);
+}
+
+/* ─── COACHING ────────────────────────────────────────── */
+.coaching {
+  background: var(--deep);
+  padding: var(--section-pad) 0;
+  position: relative;
+}
+.coaching-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 112px; align-items: start;
+}
+.coaching-sticky { position: sticky; top: 108px; }
+.coaching-sticky h2 { margin-top: 18px; margin-bottom: 26px; }
+.coaching-note {
+  font-size: 15px; font-weight: 300;
+  color: var(--text-sub); line-height: 1.82;
+  max-width: 360px; margin-bottom: 52px;
+}
+.c-stat {
+  padding: 26px 0;
+  border-top: 1px solid var(--border);
+}
+.c-stat:last-child { border-bottom: 1px solid var(--border); }
+.c-stat-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 54px; letter-spacing: .02em;
+  color: var(--cream); line-height: 1;
+}
+.c-stat-l {
+  font-size: 11.5px; font-weight: 300;
+  color: var(--text-muted); letter-spacing: .07em; margin-top: 3px;
+}
+.pillars { padding-top: 12px; }
+.pillar {
+  padding: 38px 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .58s ease, transform .58s ease;
+}
+.pillar.vis { opacity: 1; transform: translateY(0); }
+.pillar:first-child { padding-top: 0; }
+.pillar-n {
+  font-size: 9.5px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px;
+}
+.pillar-t {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 34px; letter-spacing: .04em;
+  color: var(--cream); margin-bottom: 12px;
+}
+.pillar-b {
+  font-size: 14px; font-weight: 300;
+  line-height: 1.76; color: var(--text-muted);
+}
+
+/* ─── VISIT ───────────────────────────────────────────── */
+.visit {
+  background: var(--gold);
+  padding: var(--section-pad) 0;
+  position: relative; overflow: hidden;
+}
+.visit-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 88px; align-items: center;
+}
+.visit-eyebrow {
+  font-size: 10px; letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(1,15,30,0.45);
+  margin-bottom: 22px;
+  display: flex; align-items: center; gap: 14px;
+}
+.visit-eyebrow::before {
+  content: '';
+  width: 22px; height: 1px;
+  background: rgba(1,15,30,0.35);
+}
+.visit-h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 6.5vw, 96px);
+  line-height: .9; letter-spacing: .01em;
+  color: var(--deep); margin-bottom: 44px;
+}
+.vd {
+  display: flex; align-items: flex-start;
+  gap: 16px; margin-bottom: 22px;
+}
+.vd-icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(1,15,30,0.18);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 3px;
+}
+.vd-icon svg { width: 13px; height: 13px; stroke: rgba(1,15,30,0.65); }
+.vd-p {
+  font-size: 10.5px; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(1,15,30,0.42); margin-bottom: 3px;
+}
+.vd strong {
+  font-size: 15px; font-weight: 500;
+  color: var(--deep);
+}
+.visit-ctas {
+  display: flex; gap: 12px;
+  margin-top: 44px; flex-wrap: wrap;
+}
+.btn-dark {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--deep); color: var(--cream);
+  font-size: 13px; font-weight: 500; letter-spacing: .06em;
+  padding: 15px 30px;
+  text-decoration: none; cursor: none;
+  transition: opacity .2s, transform .28s;
+}
+.btn-dark:hover { opacity: .82; transform: translateY(-2px); }
+.btn-wa {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: #1DA851; color: #fff;
+  font-size: 13px; font-weight: 500; letter-spacing: .06em;
+  padding: 15px 30px;
+  text-decoration: none; cursor: none;
+  transition: opacity .2s, transform .28s;
+}
+.btn-wa:hover { opacity: .88; transform: translateY(-2px); }
+.visit-map {
+  background: rgba(1,15,30,0.07);
+  border: 1px solid rgba(1,15,30,0.1);
+  height: 400px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 22px; position: relative; overflow: hidden;
+}
+.vmap-rings { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.vmap-r {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(1,15,30,0.07);
+}
+.vmap-r1 { width: 320px; height: 320px; }
+.vmap-r2 { width: 210px; height: 210px; }
+.vmap-r3 { width: 110px; height: 110px; }
+.vmap-pin {
+  width: 14px; height: 14px;
+  background: var(--deep); border-radius: 50%;
+  position: relative; z-index: 2;
+}
+.vmap-pin::after {
+  content: '';
+  position: absolute; inset: -7px;
+  border-radius: 50%;
+  border: 1px solid rgba(1,15,30,0.22);
+  animation: ping 2.8s ease-in-out infinite;
+}
+@keyframes ping { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(2.1); opacity: 0; } }
+.vmap-addr {
+  font-size: 13px; font-weight: 500;
+  color: var(--deep); text-align: center;
+  line-height: 1.55; position: relative; z-index: 2;
+}
+.vmap-link {
+  font-size: 11px; letter-spacing: .09em;
+  text-transform: uppercase;
+  color: rgba(1,15,30,0.55); text-decoration: none;
+  border-bottom: 1px solid rgba(1,15,30,0.28);
+  padding-bottom: 2px; position: relative; z-index: 2;
+  transition: color .2s;
+}
+.vmap-link:hover { color: var(--deep); }
+
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer {
+  background: #000C18;
+  padding: 88px 0 40px;
+  border-top: 1px solid var(--border);
+}
+.ft-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 80px;
+}
+.ft-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 64px; margin-bottom: 72px;
+}
+.ft-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px; letter-spacing: .09em;
+  color: var(--cream);
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; margin-bottom: 14px;
+}
+.ft-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
+.ft-tag {
+  font-size: 13px; font-weight: 300;
+  line-height: 1.78; color: var(--text-muted);
+  max-width: 260px; margin-bottom: 30px;
+}
+.ft-social { display: flex; gap: 8px; }
+.ft-soc {
+  width: 33px; height: 33px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .04em;
+  cursor: none;
+  transition: border-color .2s, color .2s;
+}
+.ft-soc:hover { border-color: rgba(231,200,107,0.36); color: var(--gold); }
+.ft-col h4 {
+  font-size: 9.5px; letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 24px;
+}
+.ft-col ul { list-style: none; display: flex; flex-direction: column; gap: 13px; }
+.ft-col ul li a {
+  font-size: 14px; font-weight: 300;
+  color: rgba(250,241,202,0.4);
+  text-decoration: none; cursor: none;
+  transition: color .2s;
+}
+.ft-col ul li a:hover { color: var(--cream); }
+.ft-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.ft-bottom p { font-size: 12px; font-weight: 300; color: var(--text-muted); }
+.ft-bottom span { color: var(--gold); }
+
+/* ─── SCROLL REVEAL ───────────────────────────────────── */
+.sr { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+.sr.up { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .1s; }
+.d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; }
+.d4 { transition-delay: .4s; }
+
+/* ─── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .phil-inner, .coaching-inner { padding: 0 48px; gap: 64px; }
+  .disc-head, .disc-track, .disc-prog-wrap,
+  .acad-head, .acad-mosaic,
+  .ages-inner, .visit-inner, .ft-inner { padding-left: 48px; padding-right: 48px; }
+  nav { padding: 0 32px; }
+  .hero-content { padding: 0 44px 0 72px; }
+  .hero-stripe { left: 32px; }
+}
+@media (max-width: 768px) {
+  :root { --section-pad: 100px; }
+  body { cursor: auto; }
+  #cur, #cur-ring { display: none; }
+  nav { padding: 0 20px; height: 62px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .hero-content { padding: 0 20px 0 44px; }
+  .hero-stripe { left: 20px; }
+  .hero-headline { font-size: clamp(64px, 16vw, 80px); }
+  .hero-scroll { right: 24px; }
+  .phil-inner { grid-template-columns: 1fr; padding: 0 24px; gap: 0; }
+  .phil-right { display: none; }
+  .disc-head { padding: 0 20px; flex-direction: column; align-items: flex-start; margin-bottom: 48px; }
+  .disc-track { padding: 0 20px 2px; }
+  .disc-prog-wrap { padding: 0 20px; }
+  .disc-card { flex: 0 0 288px; height: 460px; }
+  .acad-head { padding: 0 20px; }
+  .acad-mosaic { padding: 0 20px; grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .mc.tall { grid-row: auto; }
+  .acad-mosaic { grid-template-rows: 200px 200px 200px; }
+  .ages-inner { padding: 0 20px; }
+  .ages-hd { grid-template-columns: 1fr; gap: 16px; margin-bottom: 48px; }
+  .ages-grid { grid-template-columns: 1fr 1fr; }
+  .coaching-inner { grid-template-columns: 1fr; padding: 0 20px; gap: 52px; }
+  .coaching-sticky { position: static; }
+  .visit-inner { grid-template-columns: 1fr; padding: 0 20px; gap: 52px; }
+  .ft-inner { padding: 0 20px; }
+  .ft-top { grid-template-columns: 1fr; gap: 40px; }
+  .s-title { font-size: clamp(40px, 10vw, 60px); }
+}
+@media (max-width: 480px) {
+  .ages-grid { grid-template-columns: 1fr; }
+  .acad-mosaic { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  .sr { opacity: 1; transform: none; }
+  .phil-value { opacity: 1; transform: none; }
+  .pillar { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cur" aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true"></div>
+
+<!-- ═══ NAV ════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#home" class="nav-logo magnetic" aria-label="Benz Fitness Club — home">
+    <span class="nav-dot" aria-hidden="true"></span>
+    BENZ FITNESS
+  </a>
+  <div class="nav-links" role="navigation" aria-label="Main">
+    <a href="#disciplines">Training</a>
+    <a href="#ages">Ages</a>
+    <a href="#coaching">Approach</a>
+    <a href="#visit">Visit</a>
+    <a href="tel:8500313356" class="nav-cta magnetic" aria-label="Call us">Call Us</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile">
+  <a href="#disciplines" onclick="closeMobile()">Training</a>
+  <a href="#ages" onclick="closeMobile()">Age Groups</a>
+  <a href="#coaching" onclick="closeMobile()">Our Approach</a>
+  <a href="#visit" onclick="closeMobile()">Visit Us</a>
+  <a href="tel:8500313356" onclick="closeMobile()">+91 85003 13356</a>
+</div>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════ -->
+<section class="hero" id="home" aria-labelledby="hero-h">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-rings" aria-hidden="true">
+    <div class="g-ring g-r1"></div>
+    <div class="g-ring g-r2"></div>
+    <div class="g-ring g-r3"></div>
+    <div class="g-ring g-r4"></div>
+    <div class="g-ring g-r5"></div>
+  </div>
+  <div class="hero-stripe" aria-hidden="true">
+    <div class="stripe-dot"></div>
+    <div class="stripe-dot"></div>
+    <div class="stripe-dot"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow" aria-label="Location: Madinaguda, Hyderabad">Madinaguda · Hyderabad</div>
+    <h1 class="hero-headline" id="hero-h">
+      <span class="h-line">Build</span>
+      <span class="h-line">Strength.</span>
+      <span class="h-line">Confidence.</span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">A multi-disciplinary fitness academy for all ages — from first movement classes to advanced athletic training.</p>
+      <div class="hero-actions">
+        <a href="#visit" class="btn-gold magnetic">Explore the Academy</a>
+        <a href="#disciplines" class="btn-outline magnetic">Our Programs</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ════════════════════════════════════════════ -->
+<div class="marquee-bar" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="mq-item">Calisthenics<span class="mq-dot"></span></span>
+    <span class="mq-item">Artistic Gymnastics<span class="mq-dot"></span></span>
+    <span class="mq-item">Kung Fu<span class="mq-dot"></span></span>
+    <span class="mq-item">Boxing<span class="mq-dot"></span></span>
+    <span class="mq-item">Strength Training<span class="mq-dot"></span></span>
+    <span class="mq-item">Gymnastics Rings<span class="mq-dot"></span></span>
+    <span class="mq-item">Calisthenics<span class="mq-dot"></span></span>
+    <span class="mq-item">Artistic Gymnastics<span class="mq-dot"></span></span>
+    <span class="mq-item">Kung Fu<span class="mq-dot"></span></span>
+    <span class="mq-item">Boxing<span class="mq-dot"></span></span>
+    <span class="mq-item">Strength Training<span class="mq-dot"></span></span>
+    <span class="mq-item">Gymnastics Rings<span class="mq-dot"></span></span>
+  </div>
+</div>
+
+<!-- ═══ PHILOSOPHY ══════════════════════════════════════════ -->
+<section class="philosophy" id="philosophy" aria-labelledby="phil-h">
+  <div class="s-divider" aria-hidden="true"></div>
+  <div class="phil-inner">
+    <div class="phil-left">
+      <div class="s-label sr">The Philosophy</div>
+      <h2 class="s-title sr d1" id="phil-h">More Than<br>a Gym.</h2>
+      <p class="phil-body sr d2">Four pillars that extend beyond physical fitness — into how you carry yourself through life.</p>
+
+      <div class="phil-values" role="list">
+        <div class="phil-value" data-word="Strength" role="listitem">
+          <span class="pv-num">01</span>
+          <div>
+            <div class="pv-title">Strength</div>
+            <p class="pv-desc">A capable, resilient body built through structured, progressive training.</p>
+          </div>
+        </div>
+        <div class="phil-value" data-word="Skill" role="listitem">
+          <span class="pv-num">02</span>
+          <div>
+            <div class="pv-title">Skill</div>
+            <p class="pv-desc">Real athletic movement that translates beyond the academy into everyday life.</p>
+          </div>
+        </div>
+        <div class="phil-value" data-word="Discipline" role="listitem">
+          <span class="pv-num">03</span>
+          <div>
+            <div class="pv-title">Discipline</div>
+            <p class="pv-desc">Consistency and focus, developed through regular coached training.</p>
+          </div>
+        </div>
+        <div class="phil-value" data-word="Confidence" role="listitem">
+          <span class="pv-num">04</span>
+          <div>
+            <div class="pv-title">Confidence</div>
+            <p class="pv-desc">Earned self-belief that follows measurable achievement in your body.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-right" aria-hidden="true">
+      <div class="phil-big-word" id="philWord">STRENGTH</div>
+      <div class="phil-rings-vis">
+        <div class="pr-row act-row" data-w="Strength">
+          <div class="pr-ring act"><div class="pr-inner"><div class="pr-core"></div></div></div>
+          <span class="pr-label">Strength</span>
+        </div>
+        <div class="pr-row" data-w="Skill">
+          <div class="pr-ring"><div class="pr-inner"><div class="pr-core"></div></div></div>
+          <span class="pr-label">Skill</span>
+        </div>
+        <div class="pr-row" data-w="Discipline">
+          <div class="pr-ring"><div class="pr-inner"><div class="pr-core"></div></div></div>
+          <span class="pr-label">Discipline</span>
+        </div>
+        <div class="pr-row" data-w="Confidence">
+          <div class="pr-ring"><div class="pr-inner"><div class="pr-core"></div></div></div>
+          <span class="pr-label">Confidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DISCIPLINES ═════════════════════════════════════════ -->
+<section class="disciplines" id="disciplines" aria-labelledby="disc-h">
+  <div class="s-divider" aria-hidden="true"></div>
+  <div class="disc-head">
+    <div class="sr">
+      <div class="s-label">Training Programs</div>
+      <h2 class="s-title" id="disc-h">Six<br>Disciplines</h2>
+    </div>
+    <p class="disc-head-note sr d2">Drag to explore. Every program is coached, structured, and open to all experience levels.</p>
+  </div>
+
+  <div class="disc-scroll">
+    <div class="disc-track" id="discTrack" role="list" aria-label="Training disciplines">
+      <div class="disc-card" role="listitem">
+        <span class="disc-n">01 / 06</span>
+        <div class="disc-mid">
+          <div class="disc-tick"></div>
+          <h3 class="disc-name">Calisthenics</h3>
+          <p class="disc-desc">Functional strength and body control through progressive bodyweight skill development.</p>
+        </div>
+        <div class="disc-tags">
+          <span class="disc-tag">All levels</span>
+          <span class="disc-tag">Strength</span>
+          <span class="disc-tag">Skill</span>
+        </div>
+      </div>
+      <div class="disc-card" role="listitem">
+        <span class="disc-n">02 / 06</span>
+        <div class="disc-mid">
+          <div class="disc-tick"></div>
+          <h3 class="disc-name">Artistic Gymnastics</h3>
+          <p class="disc-desc">Flexibility, balance, and coordination through guided gymnastics progression.</p>
+        </div>
+        <div class="disc-tags">
+          <span class="disc-tag">Kids & Adults</span>
+          <span class="disc-tag">Balance</span>
+          <span class="disc-tag">Flexibility</span>
+        </div>
+      </div>
+      <div class="disc-card" role="listitem">
+        <span class="disc-n">03 / 06</span>
+        <div class="disc-mid">
+          <div class="disc-tick"></div>
+          <h3 class="disc-name">Martial Arts</h3>
+          <p class="disc-desc">Classical Kung Fu — discipline, focus, and self-defence in a structured environment.</p>
+        </div>
+        <div class="disc-tags">
+          <span class="disc-tag">Discipline</span>
+          <span class="disc-tag">Self-defence</span>
+          <span class="disc-tag">Focus</span>
+        </div>
+      </div>
+      <div class="disc-card" role="listitem">
+        <span class="disc-n">04 / 06</span>
+        <div class="disc-mid">
+          <div class="disc-tick"></div>
+          <h3 class="disc-name">Boxing</h3>
+          <p class="disc-desc">Stamina, power, and agility with structured boxing coaching for fitness and sport.</p>
+        </div>
+        <div class="disc-tags">
+          <span class="disc-tag">Cardio</span>
+          <span class="disc-tag">Agility</span>
+          <span class="disc-tag">Power</span>
+        </div>
+      </div>
+      <div class="disc-card" role="listitem">
+        <span class="disc-n">05 / 06</span>
+        <div class="disc-mid">
+          <div class="disc-tick"></div>
+          <h3 class="disc-name">Strength Training</h3>
+          <p class="disc-desc">Coach-guided programs for lean muscle, athletic performance, and long-term health.</p>
+        </div>
+        <div class="disc-tags">
+          <span class="disc-tag">Muscle</span>
+          <span class="disc-tag">Performance</span>
+          <span class="disc-tag">Health</span>
+        </div>
+      </div>
+      <div class="disc-card" role="listitem">
+        <span class="disc-n">06 / 06</span>
+        <div class="disc-mid">
+          <div class="disc-tick"></div>
+          <h3 class="disc-name">Gymnastics Rings</h3>
+          <p class="disc-desc">Body control, balance, and upper-body strength through progressive rings training.</p>
+        </div>
+        <div class="disc-tags">
+          <span class="disc-tag">Advanced</span>
+          <span class="disc-tag">Control</span>
+          <span class="disc-tag">Strength</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disc-prog-wrap">
+    <div class="disc-prog-track" aria-hidden="true">
+      <div class="disc-prog-fill" id="discProg"></div>
+    </div>
+    <span class="disc-prog-label">Drag to explore</span>
+  </div>
+</section>
+
+<!-- ═══ ACADEMY MOSAIC ══════════════════════════════════════ -->
+<section class="academy" id="academy" aria-labelledby="acad-h">
+  <div class="s-divider" aria-hidden="true"></div>
+  <div class="acad-head">
+    <div class="s-label sr">Inside the Academy</div>
+    <h2 class="s-title sr d1" id="acad-h">Life at<br>Benz Fitness</h2>
+  </div>
+
+  <div class="acad-mosaic" aria-label="Academy training overview">
+    <div class="mc tall acc sr">
+      <div class="mc-geo" aria-hidden="true"></div>
+      <div class="mc-bg" aria-hidden="true">01</div>
+      <span class="mc-dis">Signature Program</span>
+      <h3 class="mc-label">Gymnastics<br>& Rings</h3>
+      <p class="mc-sub">The foundation of body control at Benz</p>
+    </div>
+    <div class="mc sr d1">
+      <div class="mc-bg" aria-hidden="true">02</div>
+      <span class="mc-dis">Combat</span>
+      <h3 class="mc-label">Boxing Sessions</h3>
+    </div>
+    <div class="mc sr d2">
+      <div class="mc-bg" aria-hidden="true">03</div>
+      <span class="mc-dis">Martial Arts</span>
+      <h3 class="mc-label">Kung Fu<br>Training</h3>
+    </div>
+    <div class="mc sr d1">
+      <div class="mc-bg" aria-hidden="true">04</div>
+      <span class="mc-dis">Bodyweight</span>
+      <h3 class="mc-label">Calisthenics</h3>
+    </div>
+    <div class="mc sr d2">
+      <div class="mc-bg" aria-hidden="true">05</div>
+      <span class="mc-dis">Iron</span>
+      <h3 class="mc-label">Strength<br>Coaching</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AGES ════════════════════════════════════════════════ -->
+<section class="ages" id="ages" aria-labelledby="ages-h">
+  <div class="s-divider" aria-hidden="true"></div>
+  <div class="ages-inner">
+    <div class="ages-hd">
+      <div>
+        <div class="s-label sr">For Everyone</div>
+        <h2 class="s-title sr d1" id="ages-h">Training<br>For All Ages</h2>
+      </div>
+      <p class="ages-note sr d2">Programs designed for each life stage — from a child's first movement class to seniors training for independence.</p>
+    </div>
+
+    <div class="ages-grid">
+      <div class="age-card sr d1">
+        <div class="age-bar"></div>
+        <span class="age-range" aria-label="5 to 12 years">5–12</span>
+        <div class="age-group">Kids</div>
+        <h3 class="age-name">Children</h3>
+        <p class="age-desc">Coordination, body awareness, and a love for movement built through fun, structured training.</p>
+      </div>
+      <div class="age-card sr d2">
+        <div class="age-bar"></div>
+        <span class="age-range" aria-label="13 to 19 years">13–19</span>
+        <div class="age-group">Teens</div>
+        <h3 class="age-name">Teenagers</h3>
+        <p class="age-desc">Athletic development, discipline, and confidence during the most formative years.</p>
+      </div>
+      <div class="age-card sr d3">
+        <div class="age-bar"></div>
+        <span class="age-range" aria-label="20 to 54 years">20–54</span>
+        <div class="age-group">Adults</div>
+        <h3 class="age-name">Adults</h3>
+        <p class="age-desc">Strength, fitness, and performance training adapted to your goals and schedule.</p>
+      </div>
+      <div class="age-card sr d4">
+        <div class="age-bar"></div>
+        <span class="age-range" aria-label="55 and above">55+</span>
+        <div class="age-group">Seniors</div>
+        <h3 class="age-name">Seniors</h3>
+        <p class="age-desc">Mobility, balance, and health-focused training for active, independent living.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COACHING ════════════════════════════════════════════ -->
+<section class="coaching" id="coaching" aria-labelledby="coach-h">
+  <div class="s-divider" aria-hidden="true"></div>
+  <div class="coaching-inner">
+    <div class="coaching-sticky">
+      <div class="s-label sr">The Approach</div>
+      <h2 class="s-title sr d1" id="coach-h">How We<br>Train Here</h2>
+      <p class="coaching-note sr d2">Every session is purposeful. Progress is measurable. No member trains without direction.</p>
+      <div class="c-stat sr d2">
+        <div class="c-stat-n">6</div>
+        <div class="c-stat-l">disciplines under one roof</div>
+      </div>
+      <div class="c-stat sr d3">
+        <div class="c-stat-n">Mon–Sat</div>
+        <div class="c-stat-l">6:00 AM – 8:00 PM</div>
+      </div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-n">01</div>
+        <h3 class="pillar-t">Structured Progression</h3>
+        <p class="pillar-b">Clear skill milestones, not guesswork. You start at your level and advance through a defined coaching system.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">02</div>
+        <h3 class="pillar-t">Multi-Discipline Under One Roof</h3>
+        <p class="pillar-b">Six disciplines in a single academy builds athletes who are well-rounded, not one-dimensional.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">03</div>
+        <h3 class="pillar-t">Dedicated Coaches</h3>
+        <p class="pillar-b">Deep expertise in each discipline. Every class is led, not supervised. Firm enough to push you, patient enough to build you.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">04</div>
+        <h3 class="pillar-t">A Focused Environment</h3>
+        <p class="pillar-b">The culture of the floor is discipline, respect, and consistent effort — from day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VISIT ════════════════════════════════════════════════ -->
+<section class="visit" id="visit" aria-labelledby="visit-h">
+  <div class="visit-inner">
+    <div>
+      <div class="visit-eyebrow">Visit the Academy</div>
+      <h2 class="visit-h2" id="visit-h">Come<br>Train<br>With Us.</h2>
+
+      <div class="vd">
+        <div class="vd-icon" aria-hidden="true">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+        </div>
+        <div>
+          <p class="vd-p">Location</p>
+          <strong>Mythri Nagar, Madinaguda<br>Hyderabad 500049</strong>
+        </div>
+      </div>
+      <div class="vd">
+        <div class="vd-icon" aria-hidden="true">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 6.75Z"/></svg>
+        </div>
+        <div>
+          <p class="vd-p">Phone</p>
+          <strong>+91 85003 13356</strong>
+        </div>
+      </div>
+      <div class="vd">
+        <div class="vd-icon" aria-hidden="true">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        </div>
+        <div>
+          <p class="vd-p">Hours</p>
+          <strong>Monday – Saturday &nbsp;·&nbsp; 6:00 AM – 8:00 PM</strong>
+        </div>
+      </div>
+
+      <div class="visit-ctas">
+        <a href="tel:8500313356" class="btn-dark magnetic" aria-label="Call Benz Fitness Club">Call Now</a>
+        <a href="https://wa.me/918500313356?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Benz%20Fitness%20Club"
+           class="btn-wa magnetic" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Benz Fitness Club">WhatsApp</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════════════ -->
+<footer role="contentinfo">
+  <div class="ft-inner">
+    <div class="ft-top">
+      <div>
+        <a href="#home" class="ft-brand" aria-label="Benz Fitness Club — back to top">
+          <span class="ft-dot" aria-hidden="true"></span>BENZ FITNESS
+        </a>
+        <p class="ft-tag">A multi-disciplinary fitness academy in Madinaguda — building strength, skill, discipline, and confidence for all ages.</p>
+        <div class="ft-social" aria-label="Social links">
+          <a href="#" class="ft-soc" aria-label="Instagram">IG</a>
+          <a href="https://wa.me/918500313356" class="ft-soc" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">WA</a>
+          <a href="#" class="ft-soc" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+      <div class="ft-col">
+        <h4>Programs</h4>
+        <ul>
+          <li><a href="#disciplines">Calisthenics</a></li>
+          <li><a href="#disciplines">Gymnastics</a></li>
+          <li><a href="#disciplines">Martial Arts</a></li>
+          <li><a href="#disciplines">Boxing</a></li>
+          <li><a href="#disciplines">Strength Training</a></li>
+          <li><a href="#disciplines">Gymnastics Rings</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:8500313356">+91 85003 13356</a></li>
+          <li><a href="https://wa.me/918500313356" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          <li><a href="https://maps.google.com/?q=Mythri+Nagar+Madinaguda+Hyderabad+500049" target="_blank" rel="noopener noreferrer">Get Directions</a></li>
+          <li><a href="#coaching">Our Approach</a></li>
+          <li><a href="#ages">Age Groups</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© 2025 <span>Benz Fitness Club</span> · Madinaguda, Hyderabad</p>
+      <p>Built for the community</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Cursor (desktop only) ──────────────────────────────── */
+const isFine = window.matchMedia('(pointer: fine)').matches;
+if (isFine) {
+  const cur = document.getElementById('cur');
+  const ring = document.getElementById('cur-ring');
+  let mx=0, my=0, rx=0, ry=0, raf;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cur.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+  }, { passive: true });
+
+  (function lerp() {
+    rx += (mx - rx) * 0.1;
+    ry += (my - ry) * 0.1;
+    ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+    requestAnimationFrame(lerp);
+  })();
+
+  const hoverEls = document.querySelectorAll('a, button, .disc-card, .age-card, .mc');
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cur-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cur-hover'));
+  });
+  document.addEventListener('mousedown', () => document.body.classList.add('cur-click'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('cur-click'));
+}
+
+/* ── Nav scroll ────────────────────────────────────────── */
+const nav = document.getElementById('nav');
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  nav.classList.toggle('solid', sy > 32);
+  lastScroll = sy;
+}, { passive: true });
+
+/* ── Mobile menu ────────────────────────────────────────── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', String(open));
+});
+function closeMobile() {
+  mobileMenu.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+}
+
+/* ── Scroll reveal ──────────────────────────────────────── */
+const srObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('up'); srObs.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+document.querySelectorAll('.sr').forEach(el => srObs.observe(el));
+
+/* ── Philosophy — pillar activation ────────────────────── */
+const bigWord  = document.getElementById('philWord');
+const prRows   = document.querySelectorAll('.pr-row');
+const prRings  = document.querySelectorAll('.pr-ring');
+
+const philObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('vis');
+    const w = e.target.dataset.word;
+    if (w && bigWord) {
+      bigWord.textContent = w.toUpperCase();
+      prRows.forEach(r => r.classList.remove('act-row'));
+      prRings.forEach(r => r.classList.remove('act'));
+      const ar = document.querySelector(`.pr-row[data-w="${w}"]`);
+      if (ar) { ar.classList.add('act-row'); ar.querySelector('.pr-ring').classList.add('act'); }
+    }
+  });
+}, { threshold: 0.65 });
+document.querySelectorAll('.phil-value').forEach(v => philObs.observe(v));
+
+/* ── Disciplines — drag scroll ──────────────────────────── */
+const dtrack = document.getElementById('discTrack');
+const dprog  = document.getElementById('discProg');
+let ddown = false, dstartX, dscrollL;
+
+dtrack.addEventListener('mousedown', e => {
+  ddown = true; dtrack.style.cursor = 'grabbing';
+  dstartX = e.pageX - dtrack.offsetLeft;
+  dscrollL = dtrack.scrollLeft;
+});
+document.addEventListener('mouseup', () => { ddown = false; dtrack.style.cursor = 'grab'; });
+dtrack.addEventListener('mousemove', e => {
+  if (!ddown) return;
+  e.preventDefault();
+  dtrack.scrollLeft = dscrollL - (e.pageX - dtrack.offsetLeft - dstartX) * 1.4;
+  updProg();
+});
+dtrack.addEventListener('scroll', updProg, { passive: true });
+function updProg() {
+  const max = dtrack.scrollWidth - dtrack.clientWidth;
+  dprog.style.width = (max > 0 ? (dtrack.scrollLeft / max) * 82 + 18 : 18) + '%';
+}
+
+/* Touch */
+let tx=0, tl=0;
+dtrack.addEventListener('touchstart', e => { tx=e.touches[0].clientX; tl=dtrack.scrollLeft; }, { passive: true });
+dtrack.addEventListener('touchmove',  e => { dtrack.scrollLeft = tl + (tx - e.touches[0].clientX); updProg(); }, { passive: true });
+
+/* ── Coaching pillars ────────────────────────────────────── */
+const pillarObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); pillarObs.unobserve(e.target); } });
+}, { threshold: 0.18 });
+document.querySelectorAll('.pillar').forEach((p,i) => {
+  p.style.transitionDelay = (i * 0.11) + 's';
+  pillarObs.observe(p);
+});
+
+/* ── Hero rings parallax ────────────────────────────────── */
+const gRings = document.querySelectorAll('.g-ring');
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      gRings.forEach((r, i) => {
+        r.style.transform = `translateY(${sy * [0.07,0.045,0.11,0.025,0.13][i]}px)`;
+      });
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
+
+/* ── Magnetic buttons ────────────────────────────────────── */
+if (isFine) {
+  document.querySelectorAll('.magnetic').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width  / 2) * 0.2;
+      const y = (e.clientY - r.top  - r.height / 2) * 0.2;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+}
+</script>
+</body>
+</html>
